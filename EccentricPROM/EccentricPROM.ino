@@ -43,16 +43,12 @@
 #include "XModem.h"
 
 // Version number changed as I am running seperate hardware to TommyPROM.
-static const char * MY_VERSION = "1.01";
+static const char * MY_VERSION = "1.02";
 
 
 // Global status
 CmdStatus cmdStatus;
 
-
-// Declare a global PROM device depending on the device type that is
-// defined in Configure.h
-#if defined(PROM_IS_28C)
 // Define a device for a 28C256 EEPROM with the following parameters:
 //   32K byte device capacity
 //   64 byte block writes
@@ -61,27 +57,6 @@ CmdStatus cmdStatus;
 //PromDevice28C  prom(2 * 1024L, 0, 10, true);  // 28C16 with no page writes
 PromDevice28C  prom(8 * 1024L, 0, 10, true);  // 28C64 with no page writes
 //PromDevice28C  prom(32 * 1024L, 64, 10, true); // 28C256 with page writes
-
-#elif defined(PROM_IS_27)
-// Define a device for a 27C64 EPROM with the following parameters:
-//   8K byte device capacity
-//   PGM pin pulses active LOW
-//   1000us (1ms) write pulse
-//   15 write attempts
-//   4x overwrite pulse
-//   (true) verify data byte after writing
-//PromDevice27  prom(2 * 1024L, E27C_PGM_WE, 50000L, 1, 0);  // 27C16 with single 50ms write
-//PromDevice27  prom(8 * 1024L, E27C_PGM_WE, 1000L, 15, 4);  // 27C64 with SEEQ intelligent programming
-//PromDevice27  prom(32 * 1024L, E27C_PGM_WE, 1000L, 25, 3); // 27C256 with SEEQ intelligent programming
-//PromDevice27  prom(256 * 1024L, E27C_PGM_WE, 20L, 1, 0, false); // SST27SF020 with single 20us write, no verify
-
-// Additional device-specific code goes here...
-//#elif defined(PROM_IS...
-
-#else
-#error "Must define a PROM type in Configure.h"
-#endif
-
 
 // Global XModem driver
 XModem xmodem(prom, cmdStatus);
